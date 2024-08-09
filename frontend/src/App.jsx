@@ -43,7 +43,7 @@ function App() {
                                     exact
                                     element={<Signup />}
                                 />
-                                <Route path="/reviews"
+                                <Route path="/views"
                                 exact
                                 element={<Reviews />}
                                 />

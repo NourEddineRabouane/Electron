@@ -1,16 +1,21 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { context } from "../App";
+import Allviews from "../components/Allviews";
 const Reviews = () => {
     const [comment, setComment] = useState("");
     const { info } = useContext(context);
 
     const handleView = () => {
-        const data = JSON.stringify({ comment: comment });
+        const data = JSON.stringify({ comment: comment, id: info.id });
+        console.log(data);
         axios
-            .put("", data, { headers: { "Content-Type": "application/json" } })
+            .put("http://localhost:5000/view", data, {
+                headers: { "Content-Type": "application/json" },
+            })
             .then((res) => {
                 console.log(res);
+                setComment('');
             })
             .catch((err) => {
                 console.error(err);
@@ -25,6 +30,7 @@ const Reviews = () => {
                     </h1>
                     <section className="grid grid-cols-2 w-2/3 place-items-center mx-auto max-md:w-full max-sm:grid-rows-2 max-sm:grid-cols-1 mt-4">
                         <textarea
+                        value={comment}
                             onChange={(event) => {
                                 setComment(event.target.value);
                             }}
@@ -46,11 +52,8 @@ const Reviews = () => {
                     </section>
                 </div>
             )}
-            <div className="mt-8 shadow-sm p-4">
-                <h1 className="text-gray-700 text-xl font-bold capitalize">
-                    others&apos;s views
-                </h1>
-            </div>
+            
+            <Allviews/>
         </div>
     );
 };

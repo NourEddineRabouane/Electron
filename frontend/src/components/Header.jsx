@@ -73,7 +73,7 @@ const Header = () => {
                         <Link to={`/products`}>products</Link>
                     </li>
                     <li className="  ">
-                        <Link to={`/reviews`}>reviewers</Link>
+                        <Link to={`/views`}>Viewes</Link>
                     </li>
                     {info.userRole === "admin" && info.login && (
                         <li className="  ">

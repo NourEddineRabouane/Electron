@@ -8,3 +8,19 @@
 .productsTable tbody tr:nth-child(2n+1){
   background-color: rgb(244, 244, 244);
 }
+/* views icone */
+.svg-icon {
+  width: 30px;
+  height: 3 0px;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #4691f6;
+}
+
+.svg-icon circle {
+  stroke: #4691f6;
+  stroke-width: 1;
+}

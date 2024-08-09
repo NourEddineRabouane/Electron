@@ -26,13 +26,14 @@ const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
 const adminRouter = require("./routes/admin");
 const logoutRouter = require("./routes/logout");
+const viewRouter = require("./routes/view");
 
 app.use("/products", productsRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/admin", adminRouter);
 app.use("/logout", logoutRouter);
-
+app.use("/view" , viewRouter);
 //
 const port = 5000;
 app.listen(port, () => {

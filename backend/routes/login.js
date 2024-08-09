@@ -17,8 +17,9 @@ router.post("/", (req, res) => {
                         .status(500)
                         .json({ error: "Couldn't compare passwords" });
                 if (response) {
-                    //genrate a token
                     const id = data[0].id;
+                    // const hashId = await bcrypt.hash(id, 10); //hash id
+                    //genrate a token
                     const token = jwt.sign({ id }, "electron-secret-key", {
                         expiresIn: "1d",
                     });
@@ -33,9 +34,12 @@ router.post("/", (req, res) => {
                         JSON.stringify({
                             login: true,
                             userRole: data[0].role,
+                            id,
                         })
                     );
-                    return res.status(200).json({ message: "Log in successfully" });
+                    return res
+                        .status(200)
+                        .json({ message: "Log in successfully" });
                 } else {
                     return res
                         .status(400)
