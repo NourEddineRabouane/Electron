@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState, memo, createContext } from "react";
 import Add_product from "./Add_product";
 import axios from "axios";
@@ -6,8 +5,8 @@ import Table from "./Table";
 import { useDispatch, useSelector } from "react-redux";
 import { setGlobalModal } from "../state/modal";
 import GlobalModal from "./GloabalModal";
+import propTypes from "prop-types"; //to defines props types for components.
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const modalContext = createContext();
 
 const ManageProducts = () => {
@@ -30,12 +29,11 @@ const ManageProducts = () => {
         const controller = new AbortController();
         if (type === "update") {
             axios
-                .get(`http://localhost:5000/products/update/${id}`, {
+                .get(`http://localhost:5000/products/single/${id}`, {
                     signal: controller.signal,
                 })
                 .then((res) => {
                     setProduct(res.data);
-                    // dispatchGloabalModal(setGlobalModal({type : 'update' , status : 'success' , err : null}));
                 })
                 .catch((err) => {
                     dispatchGloabalModal(
@@ -131,15 +129,19 @@ const ManageProducts = () => {
                         setGlobalModal({
                             type: "update",
                             status: "failed",
-                            err: err.message,
+                            err: err.response.data.error,
                         })
                     );
                 }
                 setAbortController(null);
-            }).finally(()=>{setProduct(null);setAbortController(null)});
+            })
+            .finally(() => {
+                setProduct(null);
+                setAbortController(null);
+            });
     };
 
-    //
+    //once the component is mounted fetch all products from the db
     useEffect(() => {
         axios
             .get("http://localhost:5000/products")
@@ -157,11 +159,16 @@ const ManageProducts = () => {
                 );
             });
     }, []);
+
     return (
         <modalContext.Provider value={{ localModal, setLocalModal }}>
+            {/* the section to add a product */}
             <Add_product product={product} handleUpdate={handleUpdate} />
+
+            {/* products in the db */}
             <Table data={data} />
 
+            {/* local modal for updating and deleting a product */}
             {localModal.isVisible && ( //for update and delete
                 <Modal
                     dispatch={setLocalModal}
@@ -174,6 +181,7 @@ const ManageProducts = () => {
                 </Modal>
             )}
 
+            {/* for the gloabal modal */}
             {isVisible && <GlobalModal />}
         </modalContext.Provider>
     );
@@ -201,7 +209,7 @@ const Modal = memo(function Modal({ dispatch, modal, handleSubmit, children }) {
                     </form>
                     <button
                         onClick={() => {
-                            dispatch({
+                            dispatch({ //hide the modal
                                 ...modal,
                                 isVisible: false,
                                 type: null,
@@ -216,5 +224,11 @@ const Modal = memo(function Modal({ dispatch, modal, handleSubmit, children }) {
         </div>
     );
 });
+Modal.propTypes = {
+    dispatch: propTypes.func,
+    modal: propTypes.object,
+    handleSubmit: propTypes.func,
+    children: propTypes.any,
+};
 //
 export default ManageProducts;

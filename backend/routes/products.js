@@ -4,14 +4,14 @@ const router = express.Router();
 const db = require("../database/db"); // Import database connection
 const cloudinary = require("../cloud");
 //
-router.get("/update/:id", (req, res) => {
+//get product by id
+router.get("/single/:id", (req, res) => {
     const productID = req.params.id;
-    const q =
-        "SELECT * FROM products WHERE id=?";
-    db.query(q,[productID], (err , result) => {
-        if (err) return res.status(400).json({error : `Error : ${err}`});
-        res.status(201).json(result[0]);
-    })
+    const q = "SELECT * FROM products WHERE id=?";
+    db.query(q, [productID], (err, result) => {
+        if (err) return res.status(400).json({ error: `Error : ${err}` });
+        return res.status(201).json(result[0]);
+    });
 });
 
 //delete specific product
@@ -27,13 +27,13 @@ router.delete("/delete/:id", (req, res) => {
         //
         db.query(q, [productID], (err) => {
             if (err) return res.status(400).json({ error: err.message }); //can't delete product
-            
+
             //delete the image from the cloud
             cloudinary.uploader
                 .destroy(imagePublicId, { invalidate: true })
                 .then((result) => {
                     if (result.result === "ok")
-                        res.status(200).json({
+                        return res.status(200).json({
                             OK: true,
                             message: "Product has been deleted successfully.",
                         });
@@ -67,7 +67,7 @@ router.get("/categorie", (req, res) => {
         "SELECT id , price , title , imageLink FROM products WHERE categorie=?;";
     db.query(q, [categorie], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json(result);
+        return res.status(201).json(result);
     });
 });
 //
@@ -78,7 +78,7 @@ router.get("/", (req, res) => {
         "SELECT `id`, `title`, `price`, `imageLink` ,`categorie` , `stock` , `description` FROM `products` WHERE 1";
     db.query(q, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json(result);
+        return res.status(201).json(result);
     });
 });
 //

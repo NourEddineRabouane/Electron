@@ -1,18 +1,22 @@
 import { useDispatch } from "react-redux";
 import { addProduct } from "../state/shoppingCard";
+import { Link, useNavigate } from "react-router-dom";
 
 const SingleProduct = ({ title, price, id, imageLink }) => {
     const dispatch = useDispatch();
-    const handleClick = () =>{ //Send the product to the cart
-        dispatch(addProduct({
-            id ,
-            title ,
-            price ,
-            total : price ,//initialize the total price by the default price
-            quantity : 1 ,
-            imageLink,
-        }))
-    }
+    const handleClick = () => {
+        //Send the product to the cart
+        dispatch(
+            addProduct({
+                id,
+                title,
+                price,
+                total: price, //initialize the total price by the default price
+                quantity: 1,
+                imageLink,
+            })
+        );
+    };
     return (
         <div className="group relative shadow-md border rounded">
             <button
@@ -20,14 +24,15 @@ const SingleProduct = ({ title, price, id, imageLink }) => {
                 title="ADD TO CART"
                 onClick={handleClick}
             ></button>
-            <div className="aspect-h-1  aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-
-                <img
-                    id={id}
-                    src={imageLink}
-                    alt=""
-                    className="h-full w-full object-fill object-center lg:h-full lg:w-full"
-                />
+            <div className="aspect-h-1  aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 cursor-pointer">
+                <Link to={id}>
+                    <img
+                        id={id}
+                        src={imageLink}
+                        alt=""
+                        className="h-full w-full object-fill object-center lg:h-full lg:w-full"
+                    />
+                </Link>
             </div>
             <div className="my-4 px-1 pb-1 flex justify-between gap-2">
                 <div>

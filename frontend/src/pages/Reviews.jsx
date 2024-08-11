@@ -8,7 +8,6 @@ const Reviews = () => {
 
     const handleView = () => {
         const data = JSON.stringify({ comment: comment, id: info.id });
-        console.log(data);
         axios
             .put("http://localhost:5000/view", data, {
                 headers: { "Content-Type": "application/json" },

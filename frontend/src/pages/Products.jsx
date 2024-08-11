@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SingleProduct from "../components/SingleProduct";
 import useProducts from "../fetch/useProducts";
+import { Outlet } from "react-router-dom";
 //
 //all products component
 const Products = () => {
@@ -113,6 +114,7 @@ const Products = () => {
                     </div>
                 </div>
             </div>
+            <Outlet />
         </>
     );
 };

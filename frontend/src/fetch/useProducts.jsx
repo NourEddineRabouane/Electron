@@ -22,9 +22,8 @@ export default function useProducts(operation) {
                     setError(null);
                 })
                 .catch((err) => {
-                    if (axios.isCancel(err))
-                        console.log("Request aborted !", err.message); //
-                    else setError(err.message);
+                    if (!axios.isCancel(err))
+                        setError(err.message);
                 })
                 .finally(() => {
                     setIsPending(false);
@@ -45,9 +44,8 @@ export default function useProducts(operation) {
                     setError(null);
                 })
                 .catch((err) => {
-                    if (axios.isCancel(err))
-                        console.log("Request aborted !", err.message); //
-                    else setError(err.message);
+                    if (!axios.isCancel(err))
+                        setError(err.message);
                 })
                 .finally(() => {
                     setIsPending(false);
@@ -68,9 +66,8 @@ export default function useProducts(operation) {
                     setError(null);
                 })
                 .catch((err) => {
-                    if (axios.isCancel(err))
-                        console.log("Request aborted !", err.message); //
-                    else {
+                    if (!axios.isCancel(err))
+                        {
                         setAllproducts(null);
                         if (err.response.status === 404)
                             setError(err.response.data.message);

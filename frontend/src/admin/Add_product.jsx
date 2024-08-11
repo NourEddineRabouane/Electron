@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
-import {useEffect , useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import reducer from "./reducer";
 import axios from "axios";
 import GlobalModal from "./GloabalModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setGlobalModal } from "../state/modal";
 //
-const Add_product = ({ product , handleUpdate }) => {
+const Add_product = ({ product, handleUpdate }) => {
     const [data, dispatch] = useReducer(reducer, {
         title: "",
-        price: '',
+        price: "",
         categorie: "",
         description: "",
-        stock: '',
+        stock: "",
     });
     const [image, setImage] = useState(null); //for the image
     const [abortController, setAbortController] = useState(null); //to control the request
@@ -25,7 +25,8 @@ const Add_product = ({ product , handleUpdate }) => {
         setImage(image);
     };
     //
-    useEffect(() => { //if the product to update is available fill its detail in the data object to be sent later to the server
+    useEffect(() => {
+        //if the product to update is available fill its details in the data object to be sent later to the server
         if (product && Object.keys(product).length > 0) {
             dispatch({ type: "title", data: product.title });
             dispatch({ type: "price", data: product.price });
@@ -38,12 +39,9 @@ const Add_product = ({ product , handleUpdate }) => {
     const handleSubmit = (event) => {
         // the handleSubmit function for operatoins that appear when submiting the form.
         event.preventDefault();
-        //
         if (abortController) abortController.abort(); //Abort any ongoing request
-        //
         const controller = new AbortController();
         setAbortController(controller);
-        //
         const formData = new FormData();
         formData.append("informations", JSON.stringify(data));
         formData.append("image", image);
@@ -53,12 +51,26 @@ const Add_product = ({ product , handleUpdate }) => {
                 headers: { "Content-Type": "multipart/form-data" },
                 signal: controller.signal,
             })
-            .then(() => { dispatchGloabalModal( setGlobalModal({type: "add",status: "success", err: null,})); setAbortController(null); })
+            .then(() => {
+                dispatchGloabalModal(
+                    setGlobalModal({
+                        type: "add",
+                        status: "success",
+                        err: null,
+                    })
+                );
+                setAbortController(null);
+            })
             .catch((err) => {
                 if (axios.isCancel(err)) {
                     console.log("Request canceled : ", err.message);
                 } else {
-                    dispatchGloabalModal( setGlobalModal({ type: "add", status: "failed", err: err.message, })
+                    dispatchGloabalModal(
+                        setGlobalModal({
+                            type: "add",
+                            status: "failed",
+                            err: err.response.data.error,
+                        })
                     );
                     // console.error("Error : ", err);
                 }
@@ -160,7 +172,7 @@ const Add_product = ({ product , handleUpdate }) => {
                                     Category
                                 </label>
                                 <select
-                                value={data.categorie}
+                                    value={data.categorie}
                                     onChange={(event) =>
                                         dispatch({
                                             type: "categorie",
@@ -223,27 +235,31 @@ const Add_product = ({ product , handleUpdate }) => {
                                 />
                             </div>
                         </div>
-                        {!product  && <button
-                            type="submit"
-                            className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                        >
-                            <svg
-                                className="me-1 -ms-1 w-5 h-5"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
+                        {!product && (
+                            <button
+                                type="submit"
+                                className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
                             >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                            Add new product
-                        </button>}
+                                <svg
+                                    className="me-1 -ms-1 w-5 h-5"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                                Add new product
+                            </button>
+                        )}
                         {product && Object.keys(product).length > 0 && (
                             <button
-                                onClick={(event)=>{handleUpdate(event , data , image , product)}}
+                                onClick={(event) => {
+                                    handleUpdate(event, data, image, product);
+                                }}
                                 type="button"
                                 className="inline-flex items-center text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-4"
                             >
@@ -260,7 +276,8 @@ const Add_product = ({ product , handleUpdate }) => {
                                     />
                                 </svg>
                                 Update Product
-                            </button>)}
+                            </button>
+                        )}
                     </form>
                 </div>
             </div>

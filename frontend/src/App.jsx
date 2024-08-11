@@ -10,11 +10,12 @@ import Signup from "./pages/Signup";
 import Reviews from "./pages/Reviews";
 import ShoppingCart from "./components/ShoppingCart";
 import ManageProducts from "./admin/ManageProducts";
+import Product from "./components/Product";
 import { createContext, useEffect, useState } from "react";
 //
 export const context = createContext();
 function App() {
-    const [info, setInfo] = useState({login : false , userRole : 'user'});//used to manage the things that only should somone log in see
+    const [info, setInfo] = useState({ login: false, userRole: "user" }); //used to manage the things that only should somone log in see
     useEffect(() => {
         const l = Cookies.get("info");
         if (l) setInfo(JSON.parse(l));
@@ -29,9 +30,14 @@ function App() {
                             <Routes>
                                 <Route path="/" exact element={<Home />} />
                                 <Route
-                                    path="/products"
                                     exact
+                                    path="/products"
                                     element={<Products />}
+                                />
+                                <Route
+                                    exact
+                                    path="/products/:productId"
+                                    element={<Product />}
                                 />
                                 <Route
                                     path="/login"
@@ -43,9 +49,10 @@ function App() {
                                     exact
                                     element={<Signup />}
                                 />
-                                <Route path="/views"
-                                exact
-                                element={<Reviews />}
+                                <Route
+                                    path="/views"
+                                    exact
+                                    element={<Reviews />}
                                 />
                                 {info.userRole === "admin" && info.login && (
                                     <Route

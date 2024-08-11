@@ -1,18 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import PropTypes from "prop-types";
 const Allviews = () => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
-    useEffect(() => {
+    useEffect(() => { //the first amount of this component ==> get the views from databases
         axios
             .get("http://localhost:5000/view")
             .then((res) => {
                 if (res.status === 200) {
                     setData(res.data);
                     setError(null);
-                    console.log(res);
-                    console.log(data);
                 }
             })
             .catch((err) => {
@@ -28,10 +26,10 @@ const Allviews = () => {
 
             {data &&
                     <div className="grid  gap-4 text-center sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
-                {data.map((item) => {
+                {data.map((item , index) => {
                     return (
                         <SingleView
-                            key={item.id}
+                            key={`${item.id}-${index}`}
                             username={item.username}
                             comment={item.comment}
                             date={item.created_at}
@@ -104,4 +102,10 @@ const SingleView = ({ username, comment, date }) => {
             </div>
     );
 };
+
+SingleView.propTypes = {
+    username : PropTypes.string.isRequired ,
+    comment : PropTypes.string.isRequired ,
+    date : PropTypes.string.isRequired ,
+}
 export default Allviews;
