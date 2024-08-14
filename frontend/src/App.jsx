@@ -11,9 +11,9 @@ import Reviews from "./pages/Reviews";
 import ShoppingCart from "./components/ShoppingCart";
 import ManageProducts from "./admin/ManageProducts";
 import Product from "./components/Product";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import context from "./Context/AppContext"; //this context is created in auther file and use here
 //
-export const context = createContext();
 function App() {
     const [info, setInfo] = useState({ login: false, userRole: "user" }); //used to manage the things that only should somone log in see
     useEffect(() => {
@@ -36,7 +36,12 @@ function App() {
                                 />
                                 <Route
                                     exact
-                                    path="/products/:productId"
+                                    path={"/:productId"}
+                                    element={<Product />}
+                                />
+                                <Route
+                                    exact
+                                    path={"/products/:productId"}
                                     element={<Product />}
                                 />
                                 <Route

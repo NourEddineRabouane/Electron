@@ -1,17 +1,6 @@
 const router = require("express").Router();
 const db = require("../database/db");
 //
-router.get("/", (req, res) => {
-    const { productId } = req.query;
-    const q = "SELECT AVG(rating) AS rating FROM rates WHERE product_id=?;"
-    db.query(q , [productId] , (err , data) => {
-        if (err ) return res.status(500).json({error : err});
-        const rating = Math.floor(data[0].rating);
-        return res.status(200).json( rating );
-    })
-
-});
-
 router.put("/" , (req , res ) => {
     const { productId , userId } = req.query;
     const rating = req.body.rating ;

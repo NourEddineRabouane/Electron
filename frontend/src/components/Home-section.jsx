@@ -3,7 +3,7 @@ import electronicDev from "../images/electronicDev.jpg";
 import kitchenDev from "../images/kitchenDev.jpg";
 import { Link } from "react-router-dom";
 
-function Animated_div() {
+function HomeSection () {
     return (
         <>
             <div className="grid grid-rows-3 gap-8 p-4">
@@ -77,43 +77,8 @@ function Animated_div() {
                     </button>
                 </Link>
             </div>
-            {/*<div className="relative w-full flex min-h-[60vh] overflow-hidden">
-            <div className={`absolute  w-full h-full animate-slide-1 pb-4 sm:p-0 flex flex-col sm:flex-row gap-4 justify-between  overflow-hidden`}>
-                <img src={electronicDev}
-                    alt=""
-                    className=" min-[365]:h-[70%] max-sm:h-[80%] sm:w-[450px] lg:w-auto"
-                />
-                <p className="max-[365px]:text-2xl min-[365px]:text-3xl sm:text-4xl lg:text-5xl font-bold">
-                    Find out electronic devices
-                </p>
-            </div>
-            <div
-                className={`absolute  w-full h-full animate-slide-2 pb-4 sm:p-0 flex flex-col sm:flex-row gap-4 justify-between  overflow-hidden`}
-            >
-                <img
-                    src={personalDev}
-                    alt=""
-                    className=" min-[365]:h-[70%] max-sm:h-[80%] sm:w-[450px] lg:w-auto"
-                />
-                <p className="max-[365px]:text-2xl min-[365px]:text-3xl sm:text-4xl lg:text-5xl font-bold">
-                    Find out new personal electronic devices
-                </p>
-            </div>
-            <div
-                className={`absolute  w-full h-full animate-slide-3 pb-4 sm:p-0 flex flex-col sm:flex-row gap-4 justify-between  overflow-hidden`}
-            >
-                <img
-                    src={kitchenDev}
-                    alt=""
-                    className=" min-[365]:h-[70%] max-sm:h-[80%] sm:w-[450px] lg:w-auto"
-                />
-                <p className="max-[365px]:text-2xl min-[365px]:text-3xl sm:text-4xl lg:text-5xl font-bold">
-                    Find out new kitchen electronic devices
-                </p>
-            </div>
-        </div>*/}
         </>
     );
 }
 
-export default Animated_div;
+export default HomeSection;

@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
+import propTypes from "prop-types";
 import { memo, useContext } from "react";
-import { modalContext } from "./ManageProducts";
+import modalContext from "../Context/modalContext";
 
 const Table = ({ data }) => {
-    
     return (
         <>
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
@@ -16,31 +15,31 @@ const Table = ({ data }) => {
                     <tr className="max-w-full">
                         <th
                             scope="col"
-                            className="px-5 py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
+                            className=" py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
                         >
                             Image
                         </th>
                         <th
                             scope="col"
-                            className="px-5 py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
+                            className=" py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
                         >
                             Title
                         </th>
                         <th
                             scope="col"
-                            className="px-5 py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
+                            className=" py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
                         >
                             Price
                         </th>
                         <th
                             scope="col"
-                            className="px-5 py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
+                            className=" py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
                         >
                             Stock
                         </th>
                         <th
                             scope="col"
-                            className="px-5 py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
+                            className=" py-3  text-xs clamp-[xs-2vw-lg] font-medium  uppercase tracking-wider"
                         >
                             Tools
                         </th>
@@ -54,7 +53,7 @@ const Table = ({ data }) => {
     );
 };
 const TableBody = memo(function TableBody({ products }) {
-    const setLocalModal = useContext(modalContext).setLocalModal;//the local modal for update and delete
+    const setLocalModal = useContext(modalContext).setLocalModal; //the local modal for update and delete
 
     return (
         <>
@@ -78,7 +77,7 @@ const TableBody = memo(function TableBody({ products }) {
                                     setLocalModal({
                                         type: "update",
                                         title: product.title,
-                                        isVisible : true ,
+                                        isVisible: true,
                                         id: product.id,
                                     });
                                 }}
@@ -102,4 +101,10 @@ const TableBody = memo(function TableBody({ products }) {
     );
 });
 
+Table.propTypes = {
+    data: propTypes.array,
+};
+TableBody.propTypes = {
+    products: propTypes.array,
+};
 export default Table;

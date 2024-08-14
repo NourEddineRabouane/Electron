@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import { context } from "../App";
 import Allviews from "../components/Allviews";
+import context from "../Context/AppContext";
+
 const Reviews = () => {
     const [comment, setComment] = useState("");
     const { info } = useContext(context);
@@ -21,7 +22,7 @@ const Reviews = () => {
             });
     };
     return (
-        <div>
+        <div className="border ">
             {info.login && (
                 <div className="shadow-sm p-4">
                     <h1 className="text-gray-700 text-xl font-bold capitalize">

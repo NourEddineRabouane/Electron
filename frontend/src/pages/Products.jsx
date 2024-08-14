@@ -7,30 +7,19 @@ import { Outlet } from "react-router-dom";
 const Products = () => {
     //
     const [search, setSearch] = useState(null);
-    const [operation, setOperation] = useState({
-        type: "all",
-        content: "",
-    });
+    const [operation, setOperation] = useState({ type: "all", content: "", });
     //
     const [products, isPending, error] = useProducts(operation);
     //
     const handleSubmit = (event) => {
         event.preventDefault();
-        setOperation({
-            type: "specific",
-            content: search,
-        });
+        setOperation({ type: "specific", content: search});
     };
     //
     const handleFilter = (event) => {
         const value = event.target.value;
-        setOperation({
-            type: "filter",
-            content: value,
-        });
+        setOperation({ type: "filter",  content: value });
     };
-    //
-
     //
     return (
         <>
@@ -93,10 +82,7 @@ const Products = () => {
                                         return (
                                             <SingleProduct
                                                 key={product.id}
-                                                title={product.title}
-                                                price={product.price}
-                                                id={product.id}
-                                                imageLink={product.imageLink}
+                                                product={product}
                                             />
                                         );
                                     })}

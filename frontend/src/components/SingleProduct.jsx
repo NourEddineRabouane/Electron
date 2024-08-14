@@ -1,8 +1,11 @@
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../state/shoppingCard";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import StarRating from "./StarRating";
 
-const SingleProduct = ({ title, price, id, imageLink }) => {
+const SingleProduct = ({product}) => {
+    const { title, price, id, imageLink , rating} = product;
     const dispatch = useDispatch();
     const handleClick = () => {
         //Send the product to the cart
@@ -34,7 +37,11 @@ const SingleProduct = ({ title, price, id, imageLink }) => {
                     />
                 </Link>
             </div>
-            <div className="my-4 px-1 pb-1 flex justify-between gap-2">
+            <div className="my-4 pb-1">
+                <div className="">
+                    <StarRating readOnly={true} productId={id} Rating={rating} />
+                </div>
+            <div className="my-1 px-1 pb-1 flex justify-between gap-2">
                 <div>
                     <h3 className="text-lg font-semibold text-gray-700">
                         {title}
@@ -42,8 +49,17 @@ const SingleProduct = ({ title, price, id, imageLink }) => {
                 </div>
                 <p className="text-base font-bold text-gray-900">{price}DH</p>
             </div>
+            </div>
         </div>
     );
 };
 
+SingleProduct.propTypes = {
+    product:PropTypes.object,
+    // title: PropTypes.string,
+    // price: PropTypes.number,
+    // id: PropTypes.string,
+    // imageLink: PropTypes.string,
+    // rating:PropTypes.number || null,
+};
 export default SingleProduct;

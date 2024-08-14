@@ -1,36 +1,17 @@
-import { memo, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./StarRating.css";
+import { useContext  } from "react";
 import { useDispatch } from "react-redux";
-import { addProduct } from "../state/shoppingCard";
+import { addProduct } from "../state/shoppingCard"; //add product to the cart
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
-import { context } from "../App";
+import useProduct from "../fetch/useProduct";
+import StarRating from "./StarRating";
+import context from "../Context/AppContext";
 //
 const Product = () => {
-    const [product, setProduct] = useState(null);
-    const [error, setError] = useState(null);
     const { productId } = useParams();
-    useEffect(() => {//once the component is amount fetch the data of the product
-        const controller = new AbortController();
-        axios
-            .get(`http://localhost:5000/products/single/${productId}`, {
-                signal: controller.signal,
-            })
-            .then((res) => {
-                setProduct(res.data);
-                setError(null);
-            })
-            .catch((err) => {
-                setError(err.message);
-                setProduct(null);
-            });
+    const { product , error } = useProduct(productId);
 
-        return () => {
-            //clean up function
-            controller.abort();
-        };
-    }, [productId]);
     return (
         <div className="p-2 md:p-6 relative">
             <Link to="/products">
@@ -40,13 +21,7 @@ const Product = () => {
                 <div className="flex justify-between w-full">
                     {product && (
                         <OneProduct
-                            title={product.title}
-                            price={product.price}
-                            id={product.id}
-                            imageLink={product.imageLink}
-                            description={product.description}
-                            categorie={product.categorie}
-                            stock={product.stock}
+                            product={product}
                         />
                     )}
                     {error && (
@@ -61,19 +36,13 @@ const Product = () => {
 };
 //
 //
-const OneProduct = ({ title,price,id,imageLink,description,categorie,stock,}) => {
+const OneProduct = ({product}) => {
+    const { title,price,id,imageLink,description,categorie,stock,rating} = product;
     const dispatch = useDispatch();
     const handleClick = () => {
         //add the product to the cart
         dispatch(
-            addProduct({
-                id,
-                title,
-                price,
-                total: price, //initialize the total price by the default price
-                quantity: 1,
-                imageLink,
-            })
+            addProduct({id,title, price,total: price, /*initialize the total price by the default price*/ quantity: 1,imageLink,})
         );
     };
     const { info } = useContext(context);//get the details of the user
@@ -100,7 +69,7 @@ const OneProduct = ({ title,price,id,imageLink,description,categorie,stock,}) =>
                             <p className="text-lg font-medium leading-8 text-indigo-600 mb-4">
                                 {categorie}
                             </p>
-                            <StarRating readOnly={true} productId={id} />
+                            <StarRating readOnly={true} productId={id} Rating={rating} />
                             <h2 className=" font-bold text-3xl leading-10 text-gray-900 mb-2 capitalize">
                                 {title}
                             </h2>
@@ -142,113 +111,10 @@ const OneProduct = ({ title,price,id,imageLink,description,categorie,stock,}) =>
         </section>
     );
 };
-//
-//
-const StarRating = memo(function StarRating({ readOnly, productId, userId }) {
-    const [rating, setRating] = useState(0); //number of stars
-    const [hover, setHover] = useState(0);
 
-    useEffect(() => {
-        const controller = new AbortController();
-        if (readOnly) {
-            //read only the given rate to the product
-            axios
-                .get(`http://localhost:5000/rating/?productId=${productId}`, {
-                    signal: controller.signal,
-                })
-                .then((res) => {
-                    setRating(res.data);
-                })
-                .catch((err) => {
-                    if (!axios.isCancel(err))
-                        console.error(err.response.data.error);
-                });
-        }
-
-        return () => {
-            controller.abort();
-        };
-    }, [productId, readOnly]);
-    const handleRate = () => {
-        const controller = new AbortController();
-
-        //rate your self the product
-        axios
-            .put(
-                `http://localhost:5000/rating/?productId=${productId}&userId=${userId}`,
-                { rating },
-                { signal: controller.signal }
-            )
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                if (!axios.isCancel(err)) console.log(err);
-            });
-        return () => {
-            controller.abort();
-        };
-    };
-    return (
-        <div
-            className={` flex  flex-col ${
-                !readOnly ? "items-center" : ""
-            } gap-4`}
-        >
-            <div className="star-rating">
-                {[...Array(5)].map((star, index) => {
-                    index += 1;
-                    return readOnly ? (
-                        <button
-                            type="button"
-                            aria-readonly={true}
-                            key={index}
-                            className={index <= rating ? "on" : "off"}
-                        >
-                            <span className="star fs-2 text-3xl">&#9733;</span>
-                        </button>
-                    ) : (
-                        <button
-                            type="button"
-                            key={index}
-                            className={
-                                index <= (hover || rating) ? "on" : "off"
-                            }
-                            onClick={() => setRating(index)}
-                            onMouseEnter={() => setHover(index)}
-                            onMouseLeave={() => setHover(rating)}
-                        >
-                            <span className="star fs-2 text-5xl">&#9733;</span>
-                        </button>
-                    );
-                })}
-            </div>
-            {//this button will appear only if the user is log in
-            !readOnly && (
-                <button
-                    onClick={handleRate}
-                    className="bg-red-400 text-white px-5 py-2 rounded-lg hover:bg-red-500"
-                >
-                    Rate
-                </button>
-            )}
-        </div>
-    );
-});
-
+//types of props for the OneProduct component
 OneProduct.propTypes = {
-    //types of props for the OneProduct component
-    title: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
-    imageLink: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    categorie: PropTypes.string.isRequired,
-    stock: PropTypes.number.isRequired,
+    product : PropTypes.object.isRequired,
 };
-StarRating.propTypes = {
-    readOnly: PropTypes.bool.isRequired,
-    productId: PropTypes.string,
-    userId: PropTypes.string,
-};
+
 export default Product;

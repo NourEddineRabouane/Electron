@@ -1,36 +1,51 @@
-import { data } from "autoprefixer";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import SingleProduct from "./SingleProduct";
 
 const Popular = () => {
-  const [ url , seturl ] = useState(null);
+    const [ products , setProducts ] = useState(null);
+    const [ error , setError ] = useState(null);
+
     useEffect(() => {
-        // fetch("http://localhost:5000/popular")
-        //     .then((response) => {
-        //         if (!response.ok) {
-        //             throw new Error("Network response was not ok");
-        //         }
-                
-        //         return response.json();
-        //         //
-        
-        //     })
-        //     .then((data) => {
-        //         console.log(data);
-        //         const image = data.image;
-        //         const imageSrc = `data:base64,${image.data}`;
-        //         seturl(imageSrc);
-               
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
+        const controller = new AbortController();
+        axios.
+        get("http://localhost:5000/products/popular" , {signal : controller.signal})
+        .then(res => {
+            setProducts(res.data);
+            setError(null);
+        })
+        .catch(err => {
+            if (!axios.isCancel(err))
+                {
+                setError(err.response.data.error);
+                setProducts(null);
+            }
+        })
+
+        return () => {
+            controller.abort();
+        }
     }, []);
+    if (error)
+        return(<p className="text-red-500 text-center font-semibold">can not fetch popular products :{error}</p>)
     return (
-        <div>
-            <h2>Popular products</h2>
-            {url && <img src={url}></img>}
-            <section></section>
-        </div>
+        <>
+            {
+                //when data is fetched
+                products && (
+                    <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                        {products.map((product) => {
+                            return (
+                                <SingleProduct
+                                    key={product.id}
+                                    product={product}
+                                />
+                            );
+                        })}
+                    </div>
+                )
+            }
+        </>
     );
 };
 

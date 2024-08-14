@@ -15,7 +15,7 @@ router.put("/", (req, res) => {
     });
 });
 //
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => {
     const q = `
     SELECT users.id, users.username, views.comment, views.created_at
     FROM users

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Animated_div from "../components/Animated_div";
+import HomeSection from "../components/Home-section";
 import Popular from "../components/Popular";
 import laptop from "../images/laptop.png";
 const Home = () => {
@@ -39,20 +39,18 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="shadow-lg mb-4">
+            <div className="shadow-md mb-4 border">
                 <h2 className="clamp-[3xl-3vw-5xl] m-5 flex  border-b text-gray-600">
                     Our offres :
                 </h2>
-                <Animated_div />
+                <HomeSection />
             </div>
-
-            <Popular />
-            <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Adipisci fugiat in vitae dolores tempora illum expedita quam,
-                recusandae odio laborum totam excepturi eius, magnam aliquam
-                atque explicabo quia labore porro.
-            </p>
+            <div className="mb-4 pb-8 px-4 border">
+                <h2 className="clamp-[3xl-3vw-5xl] m-5 flex  border-b text-gray-600">
+                    Popular Products
+                </h2>
+                <Popular />
+            </div>
         </section>
     );
 };

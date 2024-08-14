@@ -8,6 +8,10 @@
 .productsTable tbody tr:nth-child(2n+1){
   background-color: rgb(244, 244, 244);
 }
+
+.productsTable tbody tr td , .productsTable th{
+  padding-inline : 8px
+}
 /* views icone */
 .svg-icon {
   width: 30px;

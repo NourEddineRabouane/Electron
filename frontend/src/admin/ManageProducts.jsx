@@ -1,13 +1,12 @@
-import { useEffect, useState, memo, createContext } from "react";
+import { useEffect, useState } from "react";
 import Add_product from "./Add_product";
 import axios from "axios";
 import Table from "./Table";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setGlobalModal } from "../state/modal";
 import GlobalModal from "./GloabalModal";
-import propTypes from "prop-types"; //to defines props types for components.
-
-export const modalContext = createContext();
+import Modal from "./LocalModal";
+import modalContext from "../Context/modalContext";
 
 const ManageProducts = () => {
     const [data, setData] = useState(null);
@@ -19,8 +18,7 @@ const ManageProducts = () => {
         id: "",
         isVisible: false,
     });
-    const isVisible = useSelector((state) => state.modal.isVisible);
-    const dispatchGloabalModal = useDispatch();
+    const dispatchGloabalModal = useDispatch(); //to show global modal when it is needed
 
     ////handle server responses to manipule the modales to show
     const handleSubmit = (event, type, id) => {
@@ -182,53 +180,9 @@ const ManageProducts = () => {
             )}
 
             {/* for the gloabal modal */}
-            {isVisible && <GlobalModal />}
+            <GlobalModal />
         </modalContext.Provider>
     );
 };
 
-//modal for delete and update confirmation
-const Modal = memo(function Modal({ dispatch, modal, handleSubmit, children }) {
-    return (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-                <div className="mb-4">
-                    <p className="text-lg text-gray-800">{`${children} ${modal.title}`}</p>
-                </div>
-                <div className="flex justify-end space-x-4">
-                    <form
-                        action=""
-                        onSubmit={(e) => handleSubmit(e, modal.type, modal.id)}
-                    >
-                        <button
-                            type="submit"
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-                        >
-                            Confirm
-                        </button>
-                    </form>
-                    <button
-                        onClick={() => {
-                            dispatch({ //hide the modal
-                                ...modal,
-                                isVisible: false,
-                                type: null,
-                            });
-                        }}
-                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none"
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-});
-Modal.propTypes = {
-    dispatch: propTypes.func,
-    modal: propTypes.object,
-    handleSubmit: propTypes.func,
-    children: propTypes.any,
-};
-//
 export default ManageProducts;

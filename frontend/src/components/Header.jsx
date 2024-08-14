@@ -3,11 +3,11 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { show } from "../state/shoppingCard";
 import { useDispatch, useSelector } from "react-redux";
-import { context } from "../App";
-// eslint-disable-next-line react/prop-types
+import  context  from "../Context/AppContext";
+
 const Header = () => {
     const [isVisile, setClicked] = useState(false);
-    const { info } = useContext(context); //get the login and user role
+    const { info } = useContext(context); //get the login state and user role
     const isShown = useSelector((state) => state.shopcard.isShown);
     const dispatch = useDispatch();
     const Navigate = useNavigate();
@@ -25,7 +25,7 @@ const Header = () => {
     };
     //
     return (
-        <header className="text-blue-500 text-lg font-medium capitalize flex   max-sm:flex-col justify-between w-full sm:items-center shadow-sm sm:px-3 py-5 ">
+        <header className="text-blue-500 text-lg font-medium capitalize flex   max-sm:flex-col justify-between w-full sm:items-center shadow-lg sm:px-3 py-5 ">
             <span className="text-sm px-1">
                 <svg
                     width="559.65"
@@ -73,7 +73,7 @@ const Header = () => {
                         <Link to={`/products`}>products</Link>
                     </li>
                     <li className="  ">
-                        <Link to={`/views`}>Viewes</Link>
+                        <Link to={`/views`}>Views</Link>
                     </li>
                     {info.userRole === "admin" && info.login && (
                         <li className="  ">
