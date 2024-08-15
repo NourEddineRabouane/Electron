@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,7 +7,7 @@ const Login = () => {
     const [data, setData] = useState({ email: "", password: "" });
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
+    
     axios.defaults.withCredentials = true; //to disabe cookies and json web tokens
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -16,8 +16,8 @@ const Login = () => {
             .then((res) => {
                 if (res.status < 300) {
                     setError(null);
-                    navigate('/');
-                    location.reload();//reaload the page
+                    navigate('/')
+                    window.location.reload();
                 }
             })
             .catch((err) => {
@@ -38,7 +38,6 @@ const Login = () => {
                         <form
                             className="space-y-4 md:space-y-6"
                             onSubmit={handleSubmit}
-                            encType="multipart/form-data"
                         >
                             <div>
                                 <label
@@ -90,12 +89,11 @@ const Login = () => {
                                 </p>
                             )}
                             <div className="flex flex-row-reverse items-center justify-between">
-                                <a
-                                    href="#"
+                                <Link to='/FotgetPassword'
                                     className="text-sm font-medium text-[#2563eb] hover:underline "
                                 >
                                     Forgot password?
-                                </a>
+                                </Link>
                             </div>
                             <button
                                 type="submit"

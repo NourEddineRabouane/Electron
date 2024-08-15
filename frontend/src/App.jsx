@@ -13,6 +13,7 @@ import ManageProducts from "./admin/ManageProducts";
 import Product from "./components/Product";
 import { useEffect, useState } from "react";
 import context from "./Context/AppContext"; //this context is created in auther file and use here
+import ForgetPassword from "./pages/ForgetPassword";
 //
 function App() {
     const [info, setInfo] = useState({ login: false, userRole: "user" }); //used to manage the things that only should somone log in see
@@ -59,6 +60,7 @@ function App() {
                                     exact
                                     element={<Reviews />}
                                 />
+                                <Route path="/FotgetPassword" exact element={<ForgetPassword/>} />
                                 {info.userRole === "admin" && info.login && (
                                     <Route
                                         path="/admin"

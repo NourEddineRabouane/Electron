@@ -4,7 +4,6 @@ const db = require("../database/db");
 router.put("/" , (req , res ) => {
     const { productId , userId } = req.query;
     const rating = req.body.rating ;
-    console.log(productId , userId , rating )
     //select the tuple where the same user rate the same product
     const q = "Select id from rates where user_id=? and product_id=?;"
     db.query(q , [userId , productId ] , (err , data) => {

@@ -3,6 +3,7 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+//to log in
 router.post("/", (req, res) => {
     const q = "SELECT * FROM users WHERE email=?";
     const { email, password } = req.body;
