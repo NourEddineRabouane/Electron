@@ -1,0 +1,19 @@
+button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.on {
+  color: #ffd900;
+}
+.off {
+  color: #ffd90073;
+}
+
+/*88888888888888888888888888888888888888*/
+/* style the ellipses */
+.ellipse {
+  background: linear-gradient(180deg, rgba(168, 168, 169, 0.56) 0%, rgba(255, 255, 255, 0.8) 100%);
+  border-radius: 188.5px;
+}

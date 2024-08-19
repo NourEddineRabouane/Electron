@@ -25,7 +25,7 @@ const Header = () => {
     };
     //
     return (
-        <header className="text-blue-500 text-lg font-medium capitalize flex   max-sm:flex-col justify-between w-full sm:items-center shadow-lg sm:px-3 py-5 ">
+        <header className="text-blue-500 text-lg font-medium capitalize flex   max-sm:flex-col justify-between w-full sm:items-center shadow-md sm:px-3 py-5 lg:px-12">
             <span className="text-sm px-1">
                 <svg
                     width="559.65"
@@ -65,7 +65,7 @@ const Header = () => {
                         : "hidden"
                 }`}
             >
-                <ul className="flex gap-6 max-sm:gap-4 max-sm:flex-col max-sm:p-3 sm:items-center  clamp-[15px-3cqw-18px]">
+                <ul className="flex gap-6 max-sm:gap-4 max-sm:flex-col max-sm:p-3 sm:items-center  clamp-[15px-3cqw-20px]">
                     <li className="  ">
                         <Link to={`/`}>home</Link>
                     </li>

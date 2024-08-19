@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import SingleProduct from "./SingleProduct";
+import SingleProduct from "./product/SingleProduct";
 
 const Popular = () => {
     const [ products , setProducts ] = useState(null);

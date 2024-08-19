@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SingleProduct from "../components/SingleProduct";
+import SingleProduct from "../components/product/SingleProduct";
 import useProducts from "../fetch/useProducts";
 import { Outlet } from "react-router-dom";
 //

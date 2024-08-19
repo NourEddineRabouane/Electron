@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import { hide } from "../state/shoppingCard";
-import Cart_products from "./Cart_products";
+import Cart_products from "./product/Cart_products";
 
 const ShoppingCart = () => {
-    const { isShown , products , subtotal } = useSelector(state => state.shopcard ); //get the state of the card
+    const { isShown, products, subtotal } = useSelector(
+        (state) => state.shopcard
+    ); //get the state of the card
     const dispatch = useDispatch();
     //
     return (
@@ -58,22 +60,32 @@ const ShoppingCart = () => {
                                                 role="list"
                                                 className="-my-6 divide-y divide-gray-200"
                                             >
-                                                {products.length > 0 ?
+                                                {products.length > 0 ? (
                                                     products.map((item) => {
                                                         return (
                                                             <Cart_products
                                                                 key={item.id}
-                                                                title={item.title}
-                                                                price={item.total}
+                                                                title={
+                                                                    item.title
+                                                                }
+                                                                price={
+                                                                    item.total
+                                                                }
                                                                 id={item.id}
-                                                                quantity={item.quantity}
-                                                                imageLink={item.imageLink}
+                                                                quantity={
+                                                                    item.quantity
+                                                                }
+                                                                imageLink={
+                                                                    item.imageLink
+                                                                }
                                                             />
                                                         );
                                                     })
-                                                :
-                                                <p className="text-3xl font-bold text-gray-400 text-center mt-40">No products in the cart</p>
-                                                }
+                                                ) : (
+                                                    <p className="text-3xl font-bold text-gray-400 text-center mt-40">
+                                                        No products in the cart
+                                                    </p>
+                                                )}
                                                 {/* More products... */}
                                             </ul>
                                         </div>
