@@ -18,8 +18,7 @@ export const globalModal = createSlice({
             switch (type) {
                 case "add":
                     if (status === "success") {
-                        state.message =
-                            "Products has been added successfully";
+                        state.message = "Products has been added successfully";
                         state.err = err;
                     } else if (status === "failed") {
                         state.err = err;
@@ -53,6 +52,15 @@ export const globalModal = createSlice({
                         state.err = err;
                         state.message =
                             "Product hasn't been deleted successfully.";
+                    }
+                    break;
+                case "deleteUser":
+                    if (status === "success") {
+                        state.message = "User has been deleted successfully.";
+                    } else if (status === "failed") {
+                        state.err = err;
+                        state.message =
+                            "User hasn't been deleted successfully.";
                     }
                     break;
                 default:

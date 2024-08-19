@@ -160,6 +160,7 @@ const ManageProducts = () => {
 
     return (
         <modalContext.Provider value={{ localModal, setLocalModal }}>
+            
             {/* the section to add a product */}
             <Add_product product={product} handleUpdate={handleUpdate} />
 

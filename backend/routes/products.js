@@ -3,6 +3,14 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/db"); // Import database connection
 const cloudinary = require("../cloud");
+const util = require("util"); //to promisify functions
+
+//define an instance of db to use the promisify functions and use it only when to delete some product
+const connection = db;
+connection.query = util.promisify(connection.query);
+connection.beginTransaction = util.promisify(connection.beginTransaction);
+connection.commit = util.promisify(connection.commit);
+connection.rollback = util.promisify(connection.rollback);
 
 //get popular products
 router.get("/popular", (req, res) => {
@@ -26,32 +34,116 @@ router.get("/single/:id", (req, res) => {
 });
 
 //delete specific product
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
     const productID = req.params.id;
-    const qe = "SELECT imagePublicId FROM products WHERE id=?";
-    //
-    db.query(qe, [productID], (err, result) => {
-        if (err) return res.status(404).json("image public id not found."); //if an error during getting publicid
-        //
-        const q = "DELETE FROM products WHERE id=?";
-        const imagePublicId = result[0].imagePublicId;
-        //
-        db.query(q, [productID], (err) => {
-            if (err) return res.status(400).json({ error: err.message }); //can't delete product
+    const selectQuery = "SELECT imagePublicId FROM products WHERE id=?";
+    const deleteRatesQuery = "DELETE FROM rates WHERE product_id=?";
+    const deleteProductQuery = "DELETE FROM products WHERE id=?";
 
-            //delete the image from the cloud
-            cloudinary.uploader
-                .destroy(imagePublicId, { invalidate: true })
-                .then((result) => {
-                    if (result.result === "ok")
-                        return res.status(200).json({
-                            OK: true,
-                            message: "Product has been deleted successfully.",
-                        });
+    try {
+        // Start a transaction
+        await connection.beginTransaction();
+
+        // Fetch the image public ID
+        const [rows] = await connection.query(selectQuery, [productID]);
+        if (rows.length === 0) {
+            await connection.rollback();
+            return res.status(404).json({ error: "Product not found." });
+        }
+        const imagePublicId = rows.imagePublicId;
+
+        // Delete related rows from 'rates' table
+        await connection.query(deleteRatesQuery, [productID]);
+
+        // Delete the product
+        await connection.query(deleteProductQuery, [productID]);
+
+        // Delete the image from Cloudinary
+        cloudinary.uploader
+            .destroy(imagePublicId, { invalidate: true })
+            .then(async (result) => {
+                if (result.result === "ok") {
+                    await connection.commit(); // Commit the transaction if everything is OK
+                    return res.status(200).json({
+                        OK: true,
+                        message: "Product has been deleted successfully.",
+                    });
+                } else {
+                    throw new Error("Image deletion failed.");
+                }
+            })
+            .catch(async (error) => {
+                await connection.rollback(); // Rollback the transaction if image deletion fails
+                return res.status(500).json({
+                    error: "Failed to delete image: " + error.message,
                 });
+            });
+    } catch (error) {
+        // Rollback the transaction in case of error
+        await connection.rollback();
+        res.status(500).json({
+            error: "Failed to delete product: " + error.message,
         });
-    });
+    }
 });
+
+// router.delete("/delete/:id", async (req, res) => {
+//     const productID = req.params.id;
+//     const qe = "select imagePublicId from product where id=?";
+//     //
+//     try {
+//         // Start a transaction
+//         await connection.beginTransaction();
+
+//         // Execute delete queries
+//         const data = await connection.query(qe, [userId]);
+//         const imagePublicId = data[0].imagePublicId;
+//         await connection.query("DELETE FROM rates WHERE product_id=?", [
+//             productID,
+//         ]);
+//         await connection.query("DELETE FROM products WHERE id=?", [productID]);
+
+//         cloudinary.uploader
+//             .destroy(imagePublicId, { invalidate: true })
+//             .then(async (result) => {
+//                 if (result.result === "ok") {
+//                     await connection.commit();
+//                     return res.status(200).json({
+//                         OK: true,
+//                         message: "Product has been deleted successfully.",
+//                     });
+//                 }
+//             });
+
+//     } catch (error) {
+//         // Rollback the transaction in case of error
+//         await connection.rollback();
+//         res.status(500).json({ error: "Failed to delete user :"+error });
+//     }
+//     //
+//     // db.query(qe, [productID], (err, result) => {
+//     //     if (err) return res.status(404).json("image public id not found."); //if an error during getting publicid
+//     //     //
+//     //     const q =
+//     //         "DELETE FROM products WHERE id=?; DELETE FROM rates where product_id=?";
+//     //     const imagePublicId = result[0].imagePublicId;
+//     //     //
+//     //     db.query(q, [productID, productID], (err) => {
+//     //         if (err) return res.status(400).json({ error: err.message }); //can't delete product
+
+//     //         //delete the image from the cloud
+//     //         cloudinary.uploader
+//     //             .destroy(imagePublicId, { invalidate: true })
+//     //             .then((result) => {
+//     //                 if (result.result === "ok")
+//     //                     return res.status(200).json({
+//     //                         OK: true,
+//     //                         message: "Product has been deleted successfully.",
+//     //                     });
+//     //             });
+//     //     });
+//     // });
+// });
 
 //Get Specific Product By title
 router.get("/specific", (req, res) => {

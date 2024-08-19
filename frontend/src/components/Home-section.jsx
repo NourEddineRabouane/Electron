@@ -3,7 +3,7 @@ import electronicDev from "../images/electronicDev.jpg";
 import kitchenDev from "../images/kitchenDev.jpg";
 import { Link } from "react-router-dom";
 
-function HomeSection () {
+function HomeSection() {
     return (
         <>
             <div className="grid grid-rows-3 gap-8 p-4">

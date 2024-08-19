@@ -6,7 +6,7 @@ import { Ellipse } from "../components/Ellipse";
 const Home = () => {
     return (
         <section className="">
-            <div className="relative w-full max-md:min-h-screen md:max-h-screen bg-transparent p-3 sm:p-6 overflow-hidden">
+            <div className="relative w-full max-md:min-h-screen md:max-h-screen bg-transparent p-3 md:p-8 overflow-hidden">
                 {/* Top right ellipse */}
                 <Ellipse className="absolute w-[377px] h-[377px] right-[-100px] top-[-100px] opacity-50" />
 

@@ -29,6 +29,7 @@ const logoutRouter = require("./routes/logout");
 const viewRouter = require("./routes/view");
 const ratingRouter = require("./routes/rating");
 const forgetRouter = require("./routes/forgetpass");
+const usersRouter = require("./routes/users");
 
 app.use("/products", productsRouter);
 app.use("/login", loginRouter);
@@ -38,6 +39,7 @@ app.use("/logout", logoutRouter);
 app.use("/view" , viewRouter);
 app.use("/rating" , ratingRouter);
 app.use("/forget" , forgetRouter);
+app.use("/users", usersRouter);
 //
 const port = 5000;
 app.listen(port, () => {

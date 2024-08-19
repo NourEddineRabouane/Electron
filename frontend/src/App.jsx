@@ -9,11 +9,14 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Reviews from "./pages/Reviews";
 import ShoppingCart from "./components/ShoppingCart";
-import ManageProducts from "./admin/ManageProducts";
 import Product from "./components/product/Product";
 import { useEffect, useState } from "react";
 import context from "./Context/AppContext"; //this context is created in auther file and use here
 import ForgetPassword from "./pages/ForgetPassword";
+import Dashboard from "./admin/Dashboard";
+import ManageProducts from "./admin/ManageProducts";
+import ManageUsers from "./admin/ManageUsers";
+
 //
 function App() {
     const [info, setInfo] = useState({ login: false, userRole: "user" }); //used to manage the things that only should somone log in see
@@ -27,9 +30,9 @@ function App() {
                 <context.Provider value={{ info, setInfo }}>
                     <Header />
                     <div className="flex-1 w-full lg:mx-auto lg:max-w-[1200px] max-lg:px-2  block">
-                            <div className="flex-1 my-4  max-w-full min-w-full">
-                        <Routes>
-                            <Route path="/" exact element={<Home />} />
+                        <div className="flex-1 mb-4  max-w-full min-w-full">
+                            <Routes>
+                                <Route path="/" exact element={<Home />} />
                                 <Route
                                     exact
                                     path="/products"
@@ -69,11 +72,22 @@ function App() {
                                     <Route
                                         path="/admin"
                                         exact
-                                        element={<ManageProducts />}
-                                    />
+                                        element={<Dashboard />}
+                                    >
+                                        <Route
+                                            path="products"
+                                            exact
+                                            element={<ManageProducts />}
+                                        />
+                                        <Route
+                                            path="users"
+                                            exact
+                                            element={<ManageUsers />}
+                                        />
+                                    </Route>
                                 )}
-                        </Routes>
-                            </div>
+                            </Routes>
+                        </div>
                     </div>
                     <ShoppingCart />
                 </context.Provider>
