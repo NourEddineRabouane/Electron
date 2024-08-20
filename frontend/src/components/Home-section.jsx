@@ -1,6 +1,6 @@
-import personalDev from "../images/personalDev.png";
+import personalDev from "../images/personaldevices.jpeg";
 import electronicDev from "../images/electronicDev.jpg";
-import kitchenDev from "../images/kitchenDev.jpg";
+import kitchenDev from "../images/kitchendevices.png";
 import { Link } from "react-router-dom";
 
 function HomeSection() {
@@ -15,7 +15,7 @@ function HomeSection() {
                             alt="Electronic Device"
                         />
                     </div>
-                    <div className="sm:text-left">
+                    <div className="sm:text-left ">
                         <h3 className="clamp-[19px-4cqw-3xl] font-bold">
                             Find out electronic devices
                         </h3>
@@ -28,15 +28,15 @@ function HomeSection() {
                         </p>
                     </div>
                 </div>
-                <div className="grid shadow-sm sm:grid-col-r grid-cols-1 gap-4 max-sm:grid-rows-2 place-items-center sm:grid-cols-2 sm:flex sm:flex-row-reverse sm:justify-between">
-                    <div className="sm:flex-grow-0 sm:w-1/2">
+                <div className="grid shadow-sm sm:grid-col-2 grid-cols-1 gap-4 max-sm:grid-rows-2 place-items-center sm:grid-cols-2 sm:flex sm:flex-row-reverse sm:justify-between">
+                    <div className="sm:flex-grow-0 sm:w-1/2 w-full">
                         <img
-                            className="object-cover w-full h-auto rounded-lg shadow-lg"
+                            className="object-cover w-full h-auto rounded-lg shadow-lg max-h-[334px]"
                             src={kitchenDev}
                             alt="Kitchen Device"
                         />
                     </div>
-                    <div className="sm:text-left sm:flex-grow-0 sm:w-1/2">
+                    <div className="sm:text-left sm:flex-grow-0 sm:w-1/2 ">
                         <h3 className="clamp-[xl-3cqw-3xl] font-bold">
                             Find out kitchen electronic devices
                         </h3>
@@ -56,7 +56,7 @@ function HomeSection() {
                             alt="Personal Device"
                         />
                     </div>
-                    <div className=" sm:text-left">
+                    <div className=" sm:text-left ">
                         <h3 className="clamp-[lg-3cqw-3xl] font-bold">
                             Find out personal electronic devices
                         </h3>

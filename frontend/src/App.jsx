@@ -16,6 +16,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import Dashboard from "./admin/Dashboard";
 import ManageProducts from "./admin/ManageProducts";
 import ManageUsers from "./admin/ManageUsers";
+import AboutUs from "./pages/About";
 
 //
 function App() {
@@ -29,7 +30,7 @@ function App() {
             <Router>
                 <context.Provider value={{ info, setInfo }}>
                     <Header />
-                    <div className="flex-1 w-full lg:mx-auto lg:max-w-[1200px] max-lg:px-2  block">
+                    <div className="flex-1 w-full lg:mx-auto lg:max-w-[1150px] max-lg:px-2  block">
                         <div className="flex-1 mb-4  max-w-full min-w-full">
                             <Routes>
                                 <Route path="/" exact element={<Home />} />
@@ -68,6 +69,11 @@ function App() {
                                     exact
                                     element={<ForgetPassword />}
                                 />
+                                <Route
+                                    path="/about"
+                                    exact
+                                    element={<AboutUs />}
+                                />
                                 {info.userRole === "admin" && info.login && (
                                     <Route
                                         path="/admin"
@@ -91,8 +97,8 @@ function App() {
                     </div>
                     <ShoppingCart />
                 </context.Provider>
+                <Footer />
             </Router>
-            <Footer />
         </div>
     );
 }

@@ -22,7 +22,7 @@ const Reviews = () => {
             });
     };
     return (
-        <div className="border ">
+        <div className="border mt-8 ">
             {info.login && (
                 <div className="shadow-sm p-4">
                     <h1 className="text-gray-700 text-xl font-bold capitalize">

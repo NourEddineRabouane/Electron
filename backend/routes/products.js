@@ -87,64 +87,6 @@ router.delete("/delete/:id", async (req, res) => {
     }
 });
 
-// router.delete("/delete/:id", async (req, res) => {
-//     const productID = req.params.id;
-//     const qe = "select imagePublicId from product where id=?";
-//     //
-//     try {
-//         // Start a transaction
-//         await connection.beginTransaction();
-
-//         // Execute delete queries
-//         const data = await connection.query(qe, [userId]);
-//         const imagePublicId = data[0].imagePublicId;
-//         await connection.query("DELETE FROM rates WHERE product_id=?", [
-//             productID,
-//         ]);
-//         await connection.query("DELETE FROM products WHERE id=?", [productID]);
-
-//         cloudinary.uploader
-//             .destroy(imagePublicId, { invalidate: true })
-//             .then(async (result) => {
-//                 if (result.result === "ok") {
-//                     await connection.commit();
-//                     return res.status(200).json({
-//                         OK: true,
-//                         message: "Product has been deleted successfully.",
-//                     });
-//                 }
-//             });
-
-//     } catch (error) {
-//         // Rollback the transaction in case of error
-//         await connection.rollback();
-//         res.status(500).json({ error: "Failed to delete user :"+error });
-//     }
-//     //
-//     // db.query(qe, [productID], (err, result) => {
-//     //     if (err) return res.status(404).json("image public id not found."); //if an error during getting publicid
-//     //     //
-//     //     const q =
-//     //         "DELETE FROM products WHERE id=?; DELETE FROM rates where product_id=?";
-//     //     const imagePublicId = result[0].imagePublicId;
-//     //     //
-//     //     db.query(q, [productID, productID], (err) => {
-//     //         if (err) return res.status(400).json({ error: err.message }); //can't delete product
-
-//     //         //delete the image from the cloud
-//     //         cloudinary.uploader
-//     //             .destroy(imagePublicId, { invalidate: true })
-//     //             .then((result) => {
-//     //                 if (result.result === "ok")
-//     //                     return res.status(200).json({
-//     //                         OK: true,
-//     //                         message: "Product has been deleted successfully.",
-//     //                     });
-//     //             });
-//     //     });
-//     // });
-// });
-
 //Get Specific Product By title
 router.get("/specific", (req, res) => {
     const str = req.query.title;

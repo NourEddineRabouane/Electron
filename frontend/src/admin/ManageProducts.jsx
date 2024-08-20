@@ -31,7 +31,7 @@ const ManageProducts = () => {
                     signal: controller.signal,
                 })
                 .then((res) => {
-                    setProduct(res.data);
+                    setProduct(res.data);//grab product informations from the db and store them in the state
                 })
                 .catch((err) => {
                     dispatchGloabalModal(
@@ -52,7 +52,11 @@ const ManageProducts = () => {
                 })
                 .then((res) => {
                     if (res.status === 200) {
-                        dispatchGloabalModal(
+                        //update the UI
+                        setData((prev) =>
+                            prev.filter((product) => product.id !== id)
+                        );
+                        dispatchGloabalModal( //show the modal for success
                             setGlobalModal({
                                 type: "delete",
                                 status: "success",
@@ -63,7 +67,7 @@ const ManageProducts = () => {
                 })
                 .catch((err) => {
                     console.error(err);
-                    dispatchGloabalModal(
+                    dispatchGloabalModal( //show the modal for failed
                         setGlobalModal({
                             type: "delete",
                             status: "failed",
@@ -106,7 +110,12 @@ const ManageProducts = () => {
                 headers: { "Content-Type": "multipart/form-data" },
                 signal: controller.signal,
             })
-            .then(() => {
+            .then((res) => {
+                setData((prev) => //update the UI 
+                    prev.map((item) =>
+                        item.id === product.id ? res.data.newProduct : item
+                    )
+                );
                 // Handle success
                 dispatchGloabalModal(
                     setGlobalModal({
@@ -165,7 +174,7 @@ const ManageProducts = () => {
             <Add_product product={product} handleUpdate={handleUpdate} />
 
             {/* products in the db */}
-            <Table data={data} />
+            <Table data={data}/>
 
             {/* local modal for updating and deleting a product */}
             {localModal.isVisible && ( //for update and delete

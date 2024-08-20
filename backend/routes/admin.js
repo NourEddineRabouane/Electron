@@ -111,6 +111,7 @@ router.put("/update/:id", upload.single("image"), (req, res) => {
 
                                 return res.status(200).json({
                                     message: "Product updated successfully",
+                                    newProduct : {...data  , imageLink : url , id : productId }
                                 });
                             }
                         );
@@ -126,6 +127,7 @@ router.put("/update/:id", upload.single("image"), (req, res) => {
         });
     }
 });
+
 
 //
 module.exports = router;

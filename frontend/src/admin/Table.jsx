@@ -92,5 +92,6 @@ const Table = ({ data }) => {
 };
 Table.propTypes = {
     data: propTypes.array || null,
+    setData : propTypes.func,
 };
 export default Table;
